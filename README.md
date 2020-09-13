@@ -11,6 +11,7 @@ It's a package based on `turtlesim` simulator for ROS adding some extra function
 #### Topics
 
 1. ***turtleX/range_color_sensor***([turtlesim/Color](http://docs.ros.org/api/turtlesim/html/msg/Color.html))   
-    It's a sensor that get the color ahead the turtle, similar to a *range_sensor*. Instead of measure the distance, given a certain distance, this topic gives you the RGB values of the pixel in that distance. The diference from the *turtleX/color_sensor* in the original `turtlesim` is, this topic gives you the RGB color underneath the turtle, not ahead.
-
+    It's a sensor that get the color ahead the turtle, similar to a *range_sensor*. Instead of measure the distance, given a certain distance, this topic gives you the RGB values of the pixel in that distance. The diference from the *turtleX/color_sensor* in the original `turtlesim` is, this topic gives you the RGB color underneath the turtle, not ahead.  
+    
+![range_color_sensor](docs/color_sensor.gif)
 
