@@ -60,6 +60,14 @@ Turtle::Turtle(const ros::NodeHandle& nh, const QImage& turtle_image, const QPoi
   teleport_relative_srv_ = nh_.advertiseService("teleport_relative", &Turtle::teleportRelativeCallback, this);
   teleport_absolute_srv_ = nh_.advertiseService("teleport_absolute", &Turtle::teleportAbsoluteCallback, this);
 
+  // nh_.param<int>("range_color_sensor_dist1", sensor_range_, 1);
+    if (!nh_.hasParam("range_color_sensor_dist"))
+  {
+    nh_.setParam("range_color_sensor_dist", 1);
+  }
+
+  nh_.getParam("range_color_sensor_dist", sensor_range_);
+
   meter_ = turtle_image_.height();
   rotateImage();
 }
@@ -188,34 +196,21 @@ bool Turtle::update(double dt, QPainter& path_painter, const QImage& path_image,
   // Figure out (and publish) the color underneath the turtle
   {
     Color color;
-    Color color_s;
-    QPointF posi;
-    float dist = 1;
-    float dx = dist * cos(orient_);
-    float dy = dist * sin(orient_); 
-    posi.setX(p.x + dx);
-    posi.setY(p.y - dy);
-    QRgb pixel_s = path_image.pixel((posi * meter_).toPoint());
     QRgb pixel = path_image.pixel((pos_ * meter_).toPoint());
     color.r = qRed(pixel);
     color.g = qGreen(pixel);
     color.b = qBlue(pixel);
 
-    color_s.r = qRed(pixel_s);
-    color_s.g = qGreen(pixel_s);
-    color_s.b = qBlue(pixel_s);
-
     color_pub_.publish(color);
-    range_color_pub_.publish(color_s);
   }
 
   // Figure out (and publish) the color forward the turtle in a distance defined by pixel_dist
   {
     Color color_sensor;
     QPointF posi_sensor;
-    float pixel_dist = 1;
-    float dx = pixel_dist * cos(orient_);
-    float dy = pixel_dist * sin(orient_); 
+    // ROS_INFO_STREAM("Range: " << sensor_range_);
+    float dx = sensor_range_ * cos(orient_);
+    float dy = sensor_range_ * sin(orient_); 
     posi_sensor.setX(p.x + dx);
     posi_sensor.setY(p.y - dy);
     QRgb pixel_sensor = path_image.pixel((posi_sensor * meter_).toPoint());

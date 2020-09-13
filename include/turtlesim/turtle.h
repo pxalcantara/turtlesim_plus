@@ -94,6 +94,9 @@ private:
 
   float meter_;
 
+  /**Measuring distance of the range_color_sensor.*/
+  int sensor_range_;
+
   struct TeleportRequest
   {
     TeleportRequest(float x, float y, qreal _theta, qreal _linear, bool _relative)

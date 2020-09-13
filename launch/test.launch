@@ -1,8 +1,10 @@
 <launch>
 	
-  <node name="sim" pkg="turtlesim" type="turtlesim_node" output="screen">
+  <node name="sim_plus" pkg="turtlesim_plus" type="turtlesim_node1" output="screen">
       <param name="background_r" value="255"/>
       <param name="background_g" value="255"/>
       <param name="background_b" value="255"/>
   </node>
+
+  <param name="/turtle1/range_color_sensor_dist" value="3"/>
 </launch>
